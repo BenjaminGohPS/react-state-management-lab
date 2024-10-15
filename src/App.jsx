@@ -85,7 +85,6 @@ const App = () => {
   const [totalAgility, setAgility] = useState(0);
 
   const handleAddFighter = (team, idx) => {
-    // setTeam((prevState) => [...prevState, JSON.stringify(team)]);
     setTeam((prevState) => [
       ...prevState,
 
@@ -97,8 +96,23 @@ const App = () => {
         <li>price: {team.price}</li>
         <li>strength: {team.strength}</li>
         <li>agility: {team.agility}</li>
+        <button
+          className="Remove"
+          onClick={() => {
+            handleRemoveFighter(team);
+          }}
+        >
+          Remove
+        </button>
       </ul>,
     ]);
+  };
+
+  const handleRemoveFighter = (team, idx) => {
+    setTeam((prevState) => [...prevState].toSpliced(idx, 1));
+    setMoney((prevState) => prevState + team.price);
+    setStrength((prevState) => prevState - team.strength);
+    setAgility((prevState) => prevState - team.agility);
   };
 
   const handleMoney = (money) => {
@@ -159,19 +173,9 @@ const App = () => {
                       ? handleAgility(item.agility)
                       : console.log("Not enough money");
                   }
-                  // handleAddFighter(item);
-                  // handleMoney(item.price);
                 }}
               >
                 Add
-              </button>
-              <button
-                className="Remove"
-                onClick={() => {
-                  //code block here
-                }}
-              >
-                Remove
               </button>
             </ul>
           );
@@ -183,41 +187,4 @@ const App = () => {
 
 export default App;
 
-/**
-5. Display Total Team Strength: In this step, you’ll create a state to keep track of the total strength of your team and display it in the UI.
 
-- Initialize a new state variable named totalStrength. Set its initial value to 0.
-- Whenever a character is added or removed from the team, recalculate the total strength. This calculation should sum up the strength values of all characters currently in the team. (A great case for a helper function!)
-- Show the value of totalStrength in the UI. If the team array is empty, totalStrength should be 0.
-*/
-
-/* Workings
- <p>{zombieFighters.price <= { money } ? handleMoney(money) : "Not enough money"}{" "}</p>
-
-
-  const handleAddFighter = (team) => {
-    setTeam((prevState) => [...prevState, JSON.stringify(team)]);
-    // setFighter((prevState) => {
-    //   return [...prevState, { fighter, idx }];
-    // if (fighter.price <= money) {
-    //   money -= fighter.price;
-    // } else {
-    //   ("Not enough money");
-    // }
-  };
-
-setTeam((prevState) => [...prevState, JSON.stringify(team)]);
-
-stuck at part 4
-<ul key={idx}>
-        <li>
-          <img src={team.img} />
-        </li>
-        <li>{team.name}</li>
-        <li>price: {team.price}</li>
-        <li>strength: {team.strength}</li>
-        <li>agility: {team.agility}</li>
-      </ul>,
-
-      Team: {team.length === 0? <p>Pick some team members!</p> : {team}}
-*/
