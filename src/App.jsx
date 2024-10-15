@@ -6,9 +6,7 @@ import "./App.css";
 // src/App.jsx
 
 const App = () => {
-  // const team = [];
-  // const money = 100;
-  const zombieFighters = [
+  const initData = [
     {
       name: "Survivor",
       price: 12,
@@ -80,23 +78,39 @@ const App = () => {
       img: "https://via.placeholder.com/150/602b9e",
     },
   ];
-  const [fighter, setFighter] = useState(zombieFighters);
-  const [team, setTeam] = useState(["Pick some team members!"]);
+  const [zombieFighters, setFighter] = useState(initData);
+  const [team, setTeam] = useState([]);
   const [money, setMoney] = useState(100);
+  const [totalStrength, setStrength] = useState(0);
+  const [totalAgility, setAgility] = useState(0);
 
-  const handleAddFighter = (team) => {
-    setTeam((prevState) => [...prevState, JSON.stringify(team)]);
-    // setFighter((prevState) => {
-    //   return [...prevState, { fighter, idx }];
-    // if (fighter.price <= money) {
-    //   money -= fighter.price;
-    // } else {
-    //   ("Not enough money");
-    // }
+  const handleAddFighter = (team, idx) => {
+    // setTeam((prevState) => [...prevState, JSON.stringify(team)]);
+    setTeam((prevState) => [
+      ...prevState,
+
+      <ul key={idx}>
+        <li>
+          <img src={team.img} />
+        </li>
+        <li>{team.name}</li>
+        <li>price: {team.price}</li>
+        <li>strength: {team.strength}</li>
+        <li>agility: {team.agility}</li>
+      </ul>,
+    ]);
   };
 
   const handleMoney = (money) => {
     setMoney((prevState) => prevState - money);
+  };
+
+  const handleStrength = (strength) => {
+    setStrength((prevState) => prevState + strength);
+  };
+
+  const handleAgility = (agility) => {
+    setAgility((prevState) => prevState + agility);
   };
 
   return (
@@ -104,10 +118,10 @@ const App = () => {
       <div>
         <h1>Zombie Fighters</h1>
         <section>Money: {money}</section>
-        <section>Team Strength: </section>
-        <section>Team Agility: </section>
-        <div type="text" placeholder="" value={team}>
-          Team: {team}
+        <section>Team Strength: {totalStrength} </section>
+        <section>Team Agility: {totalAgility}</section>
+        <div type="text" placeholder="team" value={team}>
+          Team: {team.length === 0 ? <p>Pick some team members!</p> : team}
         </div>
       </div>
 
@@ -123,6 +137,7 @@ const App = () => {
               <li>strength: {item.strength}</li>
               <li>agility: {item.agility}</li>
               <button
+                className="add"
                 onClick={() => {
                   {
                     money >= item.price
@@ -134,11 +149,29 @@ const App = () => {
                       ? handleMoney(item.price)
                       : console.log("Not enough money");
                   }
+                  {
+                    money >= item.price
+                      ? handleStrength(item.strength)
+                      : console.log("Not enough money");
+                  }
+                  {
+                    money >= item.price
+                      ? handleAgility(item.agility)
+                      : console.log("Not enough money");
+                  }
                   // handleAddFighter(item);
                   // handleMoney(item.price);
                 }}
               >
                 Add
+              </button>
+              <button
+                className="Remove"
+                onClick={() => {
+                  //code block here
+                }}
+              >
+                Remove
               </button>
             </ul>
           );
@@ -151,12 +184,12 @@ const App = () => {
 export default App;
 
 /**
- Create a function named handleAddFighter. This function will be triggered when you click the Add button for any character in the zombieFighters list.
+5. Display Total Team Strength: In this step, you’ll create a state to keep track of the total strength of your team and display it in the UI.
 
-ok - When you click Add on a character, this function should add the selected character’s object to the team state array. This is how you build your team.
-ok - Each character comes with a price. Upon adding a character to your team, subtract the character’s price from your current money value. Think of it as spending money to recruit a team member.
-ok - Before adding a character to the team, check if you have enough money to afford them. If your money is less than the character’s price, you shouldn’t be able to add them. In such cases, log a message to the console such as "Not enough money".
- */
+- Initialize a new state variable named totalStrength. Set its initial value to 0.
+- Whenever a character is added or removed from the team, recalculate the total strength. This calculation should sum up the strength values of all characters currently in the team. (A great case for a helper function!)
+- Show the value of totalStrength in the UI. If the team array is empty, totalStrength should be 0.
+*/
 
 /* Workings
  <p>{zombieFighters.price <= { money } ? handleMoney(money) : "Not enough money"}{" "}</p>
@@ -172,4 +205,19 @@ ok - Before adding a character to the team, check if you have enough money to af
     //   ("Not enough money");
     // }
   };
- */
+
+setTeam((prevState) => [...prevState, JSON.stringify(team)]);
+
+stuck at part 4
+<ul key={idx}>
+        <li>
+          <img src={team.img} />
+        </li>
+        <li>{team.name}</li>
+        <li>price: {team.price}</li>
+        <li>strength: {team.strength}</li>
+        <li>agility: {team.agility}</li>
+      </ul>,
+
+      Team: {team.length === 0? <p>Pick some team members!</p> : {team}}
+*/
